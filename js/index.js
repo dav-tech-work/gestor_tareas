@@ -6,7 +6,7 @@ if (formLogin != 'No') {
     event.preventDefault();
     document.getElementById("errorUsuario").textContent = "";
     document.getElementById("errorPassword").textContent = "";
-    
+
 
     let nombre = formLogin['nombre'].value.trim()
     // Pendiente: Corregir el nombre
@@ -26,14 +26,14 @@ if (formLogin != 'No') {
     document.getElementById("errorPassword").textContent = mensajeError;
     return;
   }
-    
+
 // Comprobación por REGEX
 // Enviar datos a acceso.php
   const datos = new URLSearchParams();
   datos.append("nombre", nombre);
   datos.append("password", password);
 
-  fetch("../control/login.php",{
+  fetch("control/login.php", {  // Corregido para funcionar desde la raíz
     "method": "POST",
     "body": datos.toString(),
     "headers": {
@@ -42,27 +42,25 @@ if (formLogin != 'No') {
   })
   .then(respuesta => respuesta.text())
   .then(data => {
-    console.log(data);
+    console.log("Respuesta del servidor:", data);
 
     if (data == "UsuarioInexistente" || data == 'PasswordIncorrecto') {
-        document.getElementById('errorPassword').textContent ="Usuario o contraseña incorrectos"
-        return
+        document.getElementById('errorPassword').textContent = "Usuario o contraseña incorrectos";
+        return;
     }
 
-    // alert(`Usuario ${nombre} creado c {orrectamente`)
-     window.location.href = "../models/tareas.php";
+    console.log("Redirigiendo a tareas.php...");
+    window.location.href = "models/tareas.php";  // Corregido para la navegación desde la raíz
   }).catch(error => {
-    console.log("Error: ", error);
-  })
-
-})
+    console.error("Error en la petición:", error);
+  });
+});
 }
 
-// Capturar el objeto formulario 
+// Capturar el objeto formulario
 const formNewUser = document.forms['formNewUser'] || 'No';
 
 if (formNewUser != 'No') {
-
   formNewUser.addEventListener('submit', (event) => {
     event.preventDefault();
     document.getElementById("errorUsuario").textContent = "";
@@ -100,12 +98,11 @@ if (formNewUser != 'No') {
 
   // Si las dos contraseñas no coinciden
 if (password !== password2) {
-    document.getElementById("errorPassword").textContent = "Las contraseñas no coinciden"
+    document.getElementById("errorPassword").textContent = "Las contraseñas no coinciden";
     return;
 }
 
 // Comprobación por REGEX
-
 
 // Enviar datos a acceso.php
   const datos = new URLSearchParams();
@@ -113,9 +110,9 @@ if (password !== password2) {
   datos.append("password", password);
   datos.append("password2", password2);
   datos.append("email", email);
-   datos.append("idioma", idioma);
+  datos.append("idioma", idioma);
 
-  fetch("../control/acceso.php",{
+  fetch("control/acceso.php", {  // Corregido para funcionar desde la raíz
     "method": "POST",
     "body": datos.toString(),
     "headers": {
@@ -124,13 +121,11 @@ if (password !== password2) {
   })
   .then(respuesta => respuesta.text())
   .then(data => {
-    console.log(data);
+    console.log("Respuesta del servidor:", data);
     // alert(`Usuario ${nombre} creado correctamente`)
-    window.location.href = "../index.php";
+    window.location.href = "index.php";  // Corregido para la navegación desde la raíz
   }).catch(error => {
-    console.log("Error: ", error);
-  })
-
-})
+    console.error("Error en la petición:", error);
+  });
+});
 }
-

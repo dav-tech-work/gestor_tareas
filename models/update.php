@@ -2,7 +2,7 @@
 
 // Llamar a la conexión una vez
 require_once 'controlador/connection.php';
-require_once 'traduccion_colores.php';
+
 
 
 print_r($_POST);
